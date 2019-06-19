@@ -76,8 +76,15 @@ const Textarea = React.forwardRef(function Textarea(props, ref) {
     setState(prevState => {
       // Need a large enough different to update the height.
       // This prevents infinite rendering loop.
-      if (innerHeight > 0 && Math.abs((prevState.innerHeight || 0) - innerHeight) > 1) {
+      // if (outerHeight > 0 && Math.abs((prevState.outerHeight || 0) - outerHeight) > 1) {
+      if (outerHeight > 0 && Math.abs((prevState.outerHeight || 0) - outerHeight) > 1) {
+        if (outerHeight === prevState.prevOuterHeight && value.slice(0, 5) === 'DEBUG')
+          return prevState
+
+        console.log(`${value.length}:${value.slice(0, 20)} :: sRH: ${singleRowHeight}. I:${prevState.innerHeight}->${innerHeight} O:${prevState.outerHeight}->${outerHeight} -- ${props.className}`)
         return {
+          prevInnerHeight: prevState.innerHeight,
+          prevOuterHeight: prevState.outerHeight,
           innerHeight,
           outerHeight,
         };
